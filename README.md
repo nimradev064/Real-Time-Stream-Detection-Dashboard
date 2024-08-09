@@ -143,3 +143,44 @@ easy model selection and deployment.
 The Stream View page will allow users to select a camera and model from the database.
 Once selected, the system will display real-time images processed by the chosen model,
 providing immediate insights into the monitored area.
+
+<br> <br>
+
+# Built With
+
+![Python]  ![OpenCV] 
+
+# Getting Started
+
+# Prerequisites
+
+* Python 3.11.6
+
+# Installation  
+
+#### Windows  
+  
+1. `git clone https://github.com/nimradev064/Real-Time-Stream-Detection-Dashboard.git`  
+2. `python -m venv venv`  
+3. `.\venv\scripts\activate.bat`  
+##### ENV Packages:  
+4.  `pip install -r ./requirements.txt`
+
+#### Linux  
+  
+1. `git clone https://github.com/nimradev064/Real-Time-Stream-Detection-Dashboard.git`  
+2. `python3 -m venv venv`  
+3. `source venv/bin/activate`
+##### ENV Packages:  
+4. `pip3 install -r requirements.txt`
+### Run the Person Counting Part 
+1. cd Person Count
+2. python main.py
+
+### Run the  Part Fire Detection Part 
+1. cd Fire Event Detection
+2. python main.py
+
+### Run the program
+1. cd ..
+2. `python app.py`
