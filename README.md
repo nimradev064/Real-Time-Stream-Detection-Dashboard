@@ -1,5 +1,7 @@
 ## Real Time Stream Detection Dashboard 
 
+https://github.com/user-attachments/assets/36f24923-6f38-4643-9edf-f7fcabcd6f41
+
 ## 1. Introduction
 ### Project Overview:
 This project aims to develop a comprehensive real-time detection system capable of
