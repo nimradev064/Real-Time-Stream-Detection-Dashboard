@@ -2,6 +2,10 @@
 
 https://github.com/user-attachments/assets/36f24923-6f38-4643-9edf-f7fcabcd6f41
 
+<br>
+AWS Deployment URL: http://52.0.124.91:5000/ <br>
+Code Resource : https://github.com/nimradev064/Real-Time-Stream-Detection-Dashboard/tree/master
+
 ## 1. Introduction
 ### Project Overview:
 This project aims to develop a comprehensive real-time detection system capable of
@@ -184,3 +188,11 @@ providing immediate insights into the monitored area.
 ### Run the program
 1. cd ..
 2. `python app.py`
+
+# License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+<!-- MARKDOWN LINKS & IMAGES -->
+
+[Python]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
