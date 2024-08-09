@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Real-Time Insight Monitor : Fire Detection Event Count</title>
+
+    <!-- Custom fonts for this template-->
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}">
+
+
+<style>
+.navbar {
+  background-color: #224abe;
+  overflow: hidden;
+}
+
+.nav-links {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  float: left;
+  display: inline-block;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  padding: 14px 16px;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+.brand-logo {
+  float: left;
+  color: #fff;
+  text-decoration: none;
+  padding: 14px 16px;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.btn-light-blue {
+    background-color: #ADD8E6; /* Light Blue color */
+    color: white; /* Text color white */
+}
+
+.btn-light-blue:hover,
+.btn-light-blue:focus {
+    background-color: #87CEEB; /* Lighter Blue on hover/focus */
+    color: white; /* Text color white */
+}
+
+</style>
+
+</head>
+
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="detection_dashboard.html">
+                <div class="sidebar-brand-icon" style="margin-left: -50px;">
+                    <img src="{{ url_for('static', filename='img/Video.png') }}" alt="A beautiful example image" width="205" height="250" align="center">
+                </div>
+                <!-- <div class="sidebar-brand-text mx-3">Video Analytsis</div> -->
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/dashboard">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                View Stats
+            </div>
+
+            {% for id in Camera_ID %}
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="toggleModels('{{ id }}')">
+                    <i class="fas fa-camera"></i>
+                    <span>CameraID-{{ id }}</span>
+                </a>
+                <!-- Submenu for Model Names -->
+                <ul id="{{ id }}_submenu" class="submenu" style="display: none;">
+                    {% for model in Model_Name %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/{{ id }}/{{ model }}">
+                            <span>{{ model }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+            
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Addons
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="/add_camera">
+                    <i class="fas fa-camera"></i>
+                    <span>Add New Camera</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="/add_model">
+                    <i class="fas fa-user"></i>
+                    <span>Add New Model</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="/view_stream">
+                    <i class="fas fa-video"></i><i class="fas fa-eye"></i>
+                    <!-- <i class="fas fa-fw fa-table"></i> -->
+                    <span>View Stream</span></a>
+            </li>
+
+
+             <!-- Nav Item - Tables -->
+           <!-- <li class="nav-item">
+                <a class="nav-link" href="/index">
+                    <i class="fas fa-check"></i><i class="fas fa-arrow-right"></i>
+                    <span>View Stats</span></a>
+            </li> -->
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+            
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+
+                    <p style="color: #4e73df; font-weight: bold; font-style: italic;  font : 20px">Hi! Welcome Back</p>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                                                   <!-- <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a> -->
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if user_name %}
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user_name }}</span>
+                                {% endif %}
+
+                                <img class="img-profile rounded-circle"
+                                    src="{{ url_for('static', filename='img/undraw_profile.svg') }}">
+                            </a>
+                            <!-- Dropdown - User Information -->
+    
+                        </li>
+
+                    </ul>
+
+                </nav>
+
+                <div class="container-fluid">
+
+                   <!-- <nav class="navbar">
+                       <p class="brand-logo">Dashboard</p>
+                        <ul class="nav-links" 
+                        style= "margin-left : 100px"
+                        >
+                          <li><a href="/">CAM1</a></li>
+                          <li><a href="/">CAM2</a></li>
+
+                        </ul>
+                      </nav> 
+                      
+                      <nav class="bottom-navbar">
+                        <div class="container">
+                            <ul class="nav page-navigation">
+                     
+                              <li class="nav-item">
+                                  <a href="#" class="nav-link">
+                                    <i class="mdi mdi-cube-outline menu-icon"></i>
+                                    <span class="menu-title">CAM1</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="pages/forms/basic_elements.html" class="nav-link">
+                                    <i class="mdi mdi-chart-areaspline menu-icon"></i>
+                                    <span class="menu-title">CAM2</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                              </li> -->
+                              <!-- <li class="nav-item">
+                                  <a href="pages/charts/chartjs.html" class="nav-link">
+                                    <i class="mdi mdi-finance menu-icon"></i>
+                                    <span class="menu-title">Charts</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="pages/tables/basic-table.html" class="nav-link">
+                                    <i class="mdi mdi-grid menu-icon"></i>
+                                    <span class="menu-title">Tables</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="pages/icons/mdi.html" class="nav-link">
+                                    <i class="mdi mdi-emoticon menu-icon"></i>
+                                    <span class="menu-title">Icons</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="#" class="nav-link">
+                                    <i class="mdi mdi-codepen menu-icon"></i>
+                                    <span class="menu-title">Sample Pages</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                                  <div class="submenu">
+                                      <ul class="submenu-item">
+                                          <li class="nav-item"><a class="nav-link" href="pages/samples/login.html">Login</a></li>
+                                          <li class="nav-item"><a class="nav-link" href="pages/samples/login-2.html">Login 2</a></li>
+                                          <li class="nav-item"><a class="nav-link" href="pages/samples/register.html">Register</a></li>
+                                          <li class="nav-item"><a class="nav-link" href="pages/samples/register-2.html">Register 2</a></li>
+                                          <li class="nav-item"><a class="nav-link" href="pages/samples/lock-screen.html">Lockscreen</a></li>
+                                      </ul>
+                                  </div>
+                              </li> -->
+                             <!--  <li class="nav-item">
+                                  <a href="docs/documentation.html" class="nav-link">
+                                    <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+                                    <span class="menu-title">Documentation</span></a>
+                              </li> -->
+                            </ul>
+                        </div>
+                      </nav>
+                      <div class="container">
+                        <div class="row">
+                            <div class="col-lg-2"></div>
+                            <div class="col-lg-8">
+                                <div class="card o-hidden border-0 shadow-lg my-5 h-100 d-flex justify-content-center align-items-center">
+                                    <div class="card-body">
+                                            <h4 class="h4 text-gray-900 mb-4" style="margin-left: 140px;">Activity Count Matrix</h4>
+                                        <div class="card-body">
+                                            <!-- <form method="post" action="/process_selected_value">
+                                                <div class="form-group"> -->
+                                                    <!-- <label for="year">Select a Year:</label> -->
+                                                    <!-- <select class="form-control" id="year" name="year">
+                                                        <option value="" disabled selected>Select a Year</option>
+                                                        {% for year in years %}
+                                                            {% if year_selected == year %}
+                                                                <option value="{{ year }}" selected>{{ year }}</option>
+                                                            {% else %}
+                                                                <option value="{{ year }}">{{ year }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Generate Graph</button>
+                                            </form> -->
+                                            <form method="post" action="/process_selected_value" style="display: flex; align-items: center;">
+                                                <div class="form-group" style="margin-left: 120px;">
+                                                    <!-- <label for="year">Select a Year:</label> -->
+                                                    <select class="form-control" id="year" name="year">
+                                                        <option value="" disabled selected>Select a Year</option>
+                                                        {% for year in years %}
+                                                            {% if year_selected == year %}
+                                                                <option value="{{ year }}" selected>{{ year }}</option>
+                                                            {% else %}
+                                                                <option value="{{ year }}">{{ year }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary" style="margin-top: -8px; margin-left: 15px;">Generate Graph</button>
+                                            </form>
+                                            
+                                            
+                                            {% if graph_filename %}
+                                            <div class="mt-4">
+                                                <img src="{{ url_for('static', filename='img/images/fire_detection/years_barchart.png') }}" alt="Plot" class="img-fluid">
+                                            </div>{% else %}
+                                            <img id="graphImage" src="{{ url_for('static', filename='img/Fire_Detection.png') }}" alt="Dummy Graph" style="max-width: 100%; max-height: 100%; margin: auto;">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+
+
+                                    </div> 
+                                </div>
+                            </div>
+
+                        <div class="col-lg-2"></div></div></div>
+                            <br><br>
+                            <div class="row">
+                            <div class="col-lg-2"></div>
+                            <div class="col-lg-8">
+                                <div class="card o-hidden border-0 shadow-lg my-5 h-100 d-flex justify-content-center align-items-center">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h4 class="h4 text-gray-900 mb-4">Table Entries</h4>
+
+
+                                            <br>
+                                            <div>
+                                                <div class="row" style="margin-left: 30px;" >
+                                                <div class="col"  >
+                                                    <label for="start Range">Start Range:</label>
+                                                    <input type="number" id="start_range" placeholder="0" style="width: 150px;">
+                                                </div>
+                                                
+                                                <div class="col" style="margin-left: -20px;">
+                                                    <label for="End Range">End Range:</label>
+                                                    <input type="number" id="end_range" placeholder="5" style="width: 150px;">
+                                                </div>
+                                                <div class="col" style="margin-top: 30px; margin-left: -50px; ">
+                                                    <button  id="range_btn" class="btn btn-primary"  style="background-color:#4e73df; border-color: #4e73df;">Show Range</button>
+                                                </div></div>
+                                            </div>
+                                            <br><br>
+                                            <table id="records_table" class="table table-bordered table-striped">
+                                                <!-- Your table headers -->
+                                                <thead>
+                                                    <tr>
+                                                        <th>Camera ID</th>
+                                                        <th>Event Occur</th>
+                                                        <th>Time Stamp</th>
+                                                        <th>Image Name</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+
+
+                                            <br>
+                                            <br>
+
+
+                                        </div>  
+                                    </div> 
+
+                                    </div>
+                                </div>
+                            <div class="col-lg-2"></div>
+                            </div>
+
+                    
+<!-- Bootstrap core JavaScript-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/demo/chart-area-demo.js') }}"></script>
+<script src="{{ url_for('static', filename='js/demo/chart-pie-demo.js') }}"></script>
+
+
+<script>
+    $(document).ready(function () {
+        var currentPage = 1;
+        function fetchRecords(page) {
+            $.ajax({
+                type: 'GET',
+                url: '/fetch_data?page=' + page,
+                success: function (data) {
+                    var records = data.records;
+                    var tbody = $('#records_table tbody');
+                    tbody.empty();
+                    records.forEach(function (record) {
+                        var row = '<tr>' +
+                            '<td>' + record.camera_id + '</td>' +
+                            '<td>' + record.Event_Occur + '</td>' +
+                            '<td>' + record.Time_stamp + '</td>' +
+                            '<td><a href="/download-image/' + record.image_name + '">' + record.image_name + '</a></td>' +
+                            '</tr>';
+                        tbody.append(row);
+                    });
+                }
+            });
+        }
+
+        $('#prev_btn').click(function () {
+            if (currentPage > 1) {
+                currentPage--;
+                fetchRecords(currentPage);
+            }
+        });
+
+        $('#next_btn').click(function () {
+            currentPage++;
+            fetchRecords(currentPage);
+        });
+
+        $('#range_btn').click(function () {
+            var startRange = parseInt($('#start_range').val());
+            var endRange = parseInt($('#end_range').val());
+            if (!isNaN(startRange) && !isNaN(endRange) && startRange <= endRange) {
+                currentPage = Math.ceil(startRange / 5);
+                fetchRecords(currentPage);
+            } else {
+                alert("Invalid range");
+            }
+        });
+
+        fetchRecords(currentPage);
+    });
+</script>
+
+<script>
+    function toggleModels(id) {
+        var submenu = document.getElementById(id + '_submenu');
+        if (submenu.style.display === 'none') {
+            submenu.style.display = 'block';
+        } else {
+            submenu.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+
+<html>

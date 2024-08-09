@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags, title, CSS links, etc. -->
+
+    <title>Real-Time Insight Monitor</title>
+
+    <!-- Custom fonts for this template-->
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}">
+
+</head>
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+
+
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+                <div class="sidebar-brand-icon" style="margin-left: -50px;">
+                    <img src="{{ url_for('static', filename='img/Video.png') }}" alt="A beautiful example image" width="205" height="250" align="center">
+                </div>
+            </a>
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/dashboard">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                View Stats
+            </div>
+            <!-- Camera IP List -->
+            <!-- {% for ip in Camera_IP %}
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-camera"></i>
+                    <span>{{ ip }}</span>
+                </a>
+            </li>
+            {% endfor %} -->
+
+            <!-- {% for ip in Camera_IP %}
+            <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-camera"></i>
+                        <span>CameraIP-{{ ip }}</span>
+                    </a>
+                </li>
+            {% endfor %} -->
+            {% for id in Camera_ID %}
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="toggleModels('{{ id }}')">
+                    <i class="fas fa-camera"></i>
+                    <span>CameraID-{{ id }}</span>
+                </a>
+                <!-- Submenu for Model Names -->
+                <ul id="{{ id }}_submenu" class="submenu" style="display: none;">
+                    {% for model in Model_Name %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/{{ id }}/{{ model }}">
+                            <span>{{ model }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Addons
+            </div>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="/add_camera">
+                    <i class="fas fa-camera"></i>
+                    <span>Add New Camera</span>
+                </a>
+            </li>
+            <!-- Nav Item - Charts -->
+            <li class="nav-item">
+                <a class="nav-link" href="/add_model">
+                    <i class="fas fa-user"></i>
+                    <span>Add New Model</span>
+                </a>
+            </li>
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="/view_stream">
+                    <i class="fas fa-video"></i><i class="fas fa-eye"></i>
+                    <span>View Stream</span>
+                </a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <!-- Topbar Search -->
+                    <p style="color: #4e73df; font-weight: bold; font-style: italic; font: 20px">Hi! Welcome Back</p>
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {% if user_name %}
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user_name }}</span>
+                                {% endif %}
+                                <img class="img-profile rounded-circle" src="{{ url_for('static', filename='img/undraw_profile.svg') }}">
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="container-fluid">
+
+                   <!-- <nav class="navbar">
+                       <p class="brand-logo">Dashboard</p>
+                        <ul class="nav-links" 
+                        style= "margin-left : 100px"
+                        >
+                          <li><a href="/">CAM1</a></li>
+                          <li><a href="/">CAM2</a></li>
+
+                        </ul>
+                      </nav> 
+                      
+                      <nav class="bottom-navbar">
+                        <div class="container">
+                            <ul class="nav page-navigation">
+                     
+                              <li class="nav-item">
+                                  <a href="#" class="nav-link">
+                                    <i class="mdi mdi-cube-outline menu-icon"></i>
+                                    <span class="menu-title">CAM1</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="pages/forms/basic_elements.html" class="nav-link">
+                                    <i class="mdi mdi-chart-areaspline menu-icon"></i>
+                                    <span class="menu-title">CAM2</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                              </li> -->
+                              <!-- <li class="nav-item">
+                                  <a href="pages/charts/chartjs.html" class="nav-link">
+                                    <i class="mdi mdi-finance menu-icon"></i>
+                                    <span class="menu-title">Charts</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="pages/tables/basic-table.html" class="nav-link">
+                                    <i class="mdi mdi-grid menu-icon"></i>
+                                    <span class="menu-title">Tables</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="pages/icons/mdi.html" class="nav-link">
+                                    <i class="mdi mdi-emoticon menu-icon"></i>
+                                    <span class="menu-title">Icons</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="#" class="nav-link">
+                                    <i class="mdi mdi-codepen menu-icon"></i>
+                                    <span class="menu-title">Sample Pages</span>
+                                    <i class="menu-arrow"></i>
+                                  </a>
+                                  <div class="submenu">
+                                      <ul class="submenu-item">
+                                          <li class="nav-item"><a class="nav-link" href="pages/samples/login.html">Login</a></li>
+                                          <li class="nav-item"><a class="nav-link" href="pages/samples/login-2.html">Login 2</a></li>
+                                          <li class="nav-item"><a class="nav-link" href="pages/samples/register.html">Register</a></li>
+                                          <li class="nav-item"><a class="nav-link" href="pages/samples/register-2.html">Register 2</a></li>
+                                          <li class="nav-item"><a class="nav-link" href="pages/samples/lock-screen.html">Lockscreen</a></li>
+                                      </ul>
+                                  </div>
+                              </li> -->
+                             <!--  <li class="nav-item">
+                                  <a href="docs/documentation.html" class="nav-link">
+                                    <i class="mdi mdi-file-document-box-outline menu-icon"></i>
+                                    <span class="menu-title">Documentation</span></a>
+                              </li> -->
+                            </ul>
+                        </div>
+                      </nav>
+                      <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <a href="/detection_dashboard" style="text-decoration: none; color: inherit;">
+                                    <div class="card" style="width: 28rem;">
+                                        <!-- <img class="card-img-top" src="{{ url_for('static', filename=graphs) }}" alt="Events per Year Graph"> -->
+                                        <img src="{{ url_for('static', filename= fire_graphs) }}" alt="Fall Event Percentage Bar Chart"  style="margin-right: 20px;">
+
+                                        <div class="card-body">
+                                            <h5 class="card-title" style="color: #4e73df; text-decoration: none;">Fire Detection Event</h5>
+                                            <p class="card-text">To detect fire events, the code uses YOLOv8 for object detection, analyzing each frame to identify instances of fire. The number of fire detection events is counted and aggregated to represent the frequency of occurrences per year.</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <!-- <div class="card o-hidden border-0 shadow-lg my-5 h-100 d-flex justify-content-center align-items-center">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            
+                                </div> 
+                            </div> </div> --> 
+</div>
+                            <!-- Right Card: Table Entries -->
+                            <div class="col-lg-6">
+                                <a href="/PersonCountIndex" style="text-decoration: none; color: inherit;">
+                                    <div class="card" style="width: 28rem;">
+                                        <img src="{{ url_for('static', filename= person_graph) }}" alt="Person Count Graph"  style="margin-right: 20px;">
+                                        <div class="card-body">
+                                            <h5 class="card-title" style="color: #4e73df; text-decoration: none;">Person Count and Tracking</h5>
+                                            <p class="card-text">The real-time person count and tracking system uses computer vision to detect and track individuals in live video, providing instant updates on people and their movements for applications like crowd monitoring and security surveillance.</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                
+                                        </div>  
+                                    </div> 
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+<!-- Bootstrap core JavaScript-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/demo/chart-area-demo.js') }}"></script>
+<script src="{{ url_for('static', filename='js/demo/chart-pie-demo.js') }}"></script>
+
+
+<script>
+    $(document).ready(function() {
+        $('.dropdown-item').on('click', function() {
+            var selectedValue = $(this).text(); // Get the text of the selected item
+            $.ajax({
+                type: 'POST',
+                url: '/process_selected_value',
+                data: JSON.stringify({ selected_year: selectedValue }),
+                contentType: 'application/json',
+                success: function(response) {
+                    console.log(response);
+                    // Update chart image source
+                    var chartImgSrc = 'static/images/years_barchart.png';
+                    $('#chart-image').attr('src', chartImgSrc);
+                }
+            });
+        });
+    }); 
+</script>
+
+<!-- <script>
+    function toggleModels(ip) {
+        var submenu = document.getElementById(ip + "_submenu");
+        if (submenu.style.display === "none") {
+            submenu.style.display = "block";
+        } else {
+            submenu.style.display = "none";
+        }
+    }
+</script> -->
+<!-- Old Script for selecting Years -->
+
+<!-- <script>
+    $(document).ready(function() {
+        $('.dropdown-item').on('click', function() {
+            var selectedValue = $(this).text(); // Get the text of the selected item
+            $.ajax({
+                type: 'POST',
+                url: '/process_selected_value',
+                data: JSON.stringify({ selected_year: selectedValue }),
+                contentType: 'application/json',
+                success: function(response) {
+                    console.log(response);
+                    // Handle the response from Flask if needed
+                }
+            });
+        });
+    }); 
+</script> -->
+
+
+<script>
+    $(document).ready(function () {
+        var currentPage = 1;
+        function fetchRecords(page) {
+            $.ajax({
+                type: 'GET',
+                url: '/fetch_data?page=' + page,
+                success: function (data) {
+                    var records = data.records;
+                    var tbody = $('#records_table tbody');
+                    tbody.empty();
+                    records.forEach(function (record) {
+                        var row = '<tr>' +
+                            '<td>' + record.camera_id + '</td>' +
+                            '<td>' + record.Event_Occur + '</td>' +
+                            '<td>' + record.Time_stamp + '</td>' +
+                            '<td><a href="/download-image/' + record.image_name + '">' + record.image_name + '</a></td>' +
+                            '</tr>';
+                        tbody.append(row);
+                    });
+                }
+            });
+        }
+
+        $('#prev_btn').click(function () {
+            if (currentPage > 1) {
+                currentPage--;
+                fetchRecords(currentPage);
+            }
+        });
+
+        $('#next_btn').click(function () {
+            currentPage++;
+            fetchRecords(currentPage);
+        });
+
+        $('#range_btn').click(function () {
+            var startRange = parseInt($('#start_range').val());
+            var endRange = parseInt($('#end_range').val());
+            if (!isNaN(startRange) && !isNaN(endRange) && startRange <= endRange) {
+                currentPage = Math.ceil(startRange / 5);
+                fetchRecords(currentPage);
+            } else {
+                alert("Invalid range");
+            }
+        });
+
+        fetchRecords(currentPage);
+    });
+</script>
+
+<script>
+    function toggleModels(id) {
+        var submenu = document.getElementById(id + '_submenu');
+        if (submenu.style.display === 'none') {
+            submenu.style.display = 'block';
+        } else {
+            submenu.style.display = 'none';
+        }
+    }
+</script>
+
+
+</body>
+
+<html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Real-Time Insight Monitor</title>
+
+    <!-- Custom fonts for this template-->
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}">
+
+
+    <style>
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #4e73df; /* Sky blue background */
+            padding: 10px 20px;
+            height: 70px; /* Fixed height for navbar */
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .navbar-brand img {
+            height: 100%; /* Adjust logo to fit navbar height */
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-links a:hover {
+            background-color: #224abe;
+            border-radius: 5px;
+        }
+
+        .content {
+            margin-top: 70px; /* Space for the fixed navbar */
+            padding: 20px;
+        }
+
+        .btn-light-blue {
+            background-color: #4e73df; /* Light Blue color */
+            color: white; /* Text color white */
+        }
+
+        .btn-light-blue:hover,
+        .btn-light-blue:focus {
+            background-color: #4e73df; /* Lighter Blue on hover/focus */
+            color: white; /* Text color white */
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 70px); /* Adjust height considering the navbar */
+        }
+
+        .button-container .btn {
+            margin: 0 10px;
+        }
+    </style>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Header Navbar -->
+    <div class="navbar">
+        <a class="navbar-brand" href="/dashboard" >
+            <img src="{{ url_for('static', filename='img/Video.png') }}" alt="A beautiful example image" style=" width:250px ; height: 250px;">
+        </a>
+    </div>
+
+    <div class="content" style="margin-top: -40px;">
+        <div class="button-container">
+            <a class="nav-link" href="/add_camera"><button class="btn btn-light-blue">Add Camera</button></a>   
+            <a class="nav-link" href="/add_model"><button class="btn btn-light-blue">Add Model</button></a>
+            <a class="nav-link" href="/view_stream"><button class="btn btn-light-blue">View Stream</button></a>
+            <a class="nav-link" href="/dashboard"><button class="btn btn-light-blue">View Stats</button></a>
+
+        </div>
+    </div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/demo/chart-area-demo.js') }}"></script>
+<script src="{{ url_for('static', filename='js/demo/chart-pie-demo.js') }}"></script>
+
+</body>
+
+</html>
