@@ -102,7 +102,7 @@ secured with appropriate validations.
 MongoDB will be integrated with Flask using PyMongo or Flask-PyMongo. This
 integration enables seamless data storage and retrieval, allowing the dashboard to display
 real-time data and historical records.
-### Main Dashboard:
+### 6. Main Dashboard:
 ### Person Count Card:
 A bar graph will display real-time person count data. Users can select a specific
 year to view monthly data from January to December.
@@ -124,21 +124,21 @@ years for detailed analysis.
 Detailed records of person counts, including timestamps and counts of people
 entering or leaving an area, will be displayed in a table.
 ### Additional Notes:
-### HTML templates with Jinja2 will be used for rendering dynamic content.
-### JavaScript libraries will create interactive charts, enhancing user experience.
-### Error handling and validation will ensure robustness, while responsive design will
+1.  HTML templates with Jinja2 will be used for rendering dynamic content.
+2. JavaScript libraries will create interactive charts, enhancing user experience.
+3. Error handling and validation will ensure robustness, while responsive design will
 guarantee usability across devices.
-### Adding New Camera
+### 7 .Adding New Camera
 ### Camera Setup:
 A page will be designed to allow users to add new cameras. The form will include fields
 for Camera ID and IP address, with the data being stored in MongoDB for easy access
 and management.
-### 7. Adding New Model
+### 8. Adding New Model
 ### Model Registration:
 Users can add new models via a dedicated page. The form will include fields for Unique
 ID, Model Name, and Path, with the information being stored in MongoDB to facilitate
 easy model selection and deployment.
-### 8. View Stream
+### 9. View Stream
 ### Stream Viewing:
 The Stream View page will allow users to select a camera and model from the database.
 Once selected, the system will display real-time images processed by the chosen model,
